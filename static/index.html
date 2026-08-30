@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta
+      name="description"
+      content="Минималистичный интерфейс сервиса суммаризации текста"
+    />
+    <title>LLM User Service</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { google: "#1a73e8" },
+            boxShadow: { search: "0 1px 6px rgba(32, 33, 36, 0.18)" },
+          },
+        },
+      };
+    </script>
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body class="min-h-screen bg-white font-sans text-slate-800 antialiased">
+    <main class="mx-auto flex min-h-screen w-full max-w-4xl flex-col px-5 py-7 sm:px-8">
+      <header class="flex items-center justify-between text-sm text-slate-500">
+        <a href="/" class="font-medium text-slate-700">LLM User Service</a>
+        <span id="serviceStatus" class="inline-flex items-center gap-2">
+          <span class="h-2 w-2 rounded-full bg-emerald-500"></span>локальный сервис
+        </span>
+      </header>
+
+      <section class="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center py-14 sm:py-20">
+        <div class="mb-9 text-center">
+          <p class="mb-3 text-sm font-medium tracking-wide text-google">СУММАРИЗАЦИЯ ТЕКСТА</p>
+          <h1 class="text-3xl font-normal tracking-tight text-slate-800 sm:text-4xl">
+            Что нужно кратко изложить?
+          </h1>
+          <p class="mx-auto mt-4 max-w-lg text-base leading-7 text-slate-500">
+            Введите текст — сервис выделит основную мысль и ключевые факты.
+          </p>
+        </div>
+
+        <form id="chatForm" class="w-full" novalidate>
+          <label class="sr-only" for="messageInput">Текст для суммаризации</label>
+          <div class="rounded-3xl border border-slate-200 bg-white px-4 py-3 shadow-search transition focus-within:border-google focus-within:ring-2 focus-within:ring-blue-100 sm:px-5">
+            <textarea
+              id="messageInput"
+              name="message"
+              rows="3"
+              maxlength="1000"
+              required
+              placeholder="Введите текст для суммаризации"
+              class="block min-h-20 w-full resize-y border-0 bg-transparent p-1 text-base leading-6 text-slate-800 outline-none placeholder:text-slate-400"
+              aria-describedby="inputHint charCount formStatus"
+            ></textarea>
+            <div class="mt-2 flex items-center justify-between gap-3 border-t border-slate-100 pt-3">
+              <div class="flex min-w-0 items-center gap-3 text-xs text-slate-400">
+                <span id="inputHint">До 1000 символов</span>
+                <span id="charCount">0 / 1000</span>
+              </div>
+              <button
+                id="sendButton"
+                type="submit"
+                class="inline-flex shrink-0 items-center gap-2 rounded-full bg-google px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-blue-300"
+              >
+                <span id="sendLabel">Суммировать</span>
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </div>
+          <p id="formStatus" class="mt-3 min-h-5 text-sm" role="status" aria-live="polite"></p>
+        </form>
+
+        <section id="resultPanel" class="mt-6 hidden rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6" aria-live="polite">
+          <div class="mb-3 flex items-center justify-between gap-3">
+            <h2 class="text-sm font-medium text-slate-600">Результат</h2>
+            <span id="resultMeta" class="hidden rounded-full bg-blue-100 px-2.5 py-1 text-xs font-medium text-blue-700"></span>
+          </div>
+          <p id="resultText" class="whitespace-pre-wrap text-base leading-7 text-slate-800"></p>
+          <p id="requestMeta" class="mt-4 text-xs text-slate-400"></p>
+        </section>
+      </section>
+
+      <footer class="text-center text-xs text-slate-400">
+        Ответы модели могут содержать неточности.
+      </footer>
+    </main>
+  </body>
+</html>
